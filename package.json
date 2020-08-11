@@ -8,7 +8,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "postinstall": "../../aws-cdk/link-all.sh"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.55.0",
@@ -21,6 +22,7 @@
     "typescript": "~3.7.2"
   },
   "dependencies": {
+    "@aws-cdk/aws-appsync": "1.55.0",
     "@aws-cdk/core": "1.55.0",
     "source-map-support": "^0.5.16"
   }
