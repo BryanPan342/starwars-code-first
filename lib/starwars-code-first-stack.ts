@@ -4,7 +4,7 @@ import * as schema from './function-based-implementation/index';
 import { ObjectType } from '@aws-cdk/aws-appsync';
 
 export class StarwarsCodeFirstStack extends cdk.Stack {
-  protected globals: { [key: string]: appsync.ObjectType };
+  protected globals: { [key: string]: appsync.ObjectType | appsync.InterfaceType };
   protected objectTypes: { [key: string]: appsync.ObjectType };
   protected edges: appsync.ObjectType[];
   protected connections: appsync.ObjectType[];
