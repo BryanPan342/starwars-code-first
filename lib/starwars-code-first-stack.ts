@@ -38,19 +38,18 @@ export class StarwarsCodeFirstStack extends cdk.Stack {
     const dummy = this.api.addNoneDataSource('DummyDS', 'Just to fill up space');
 
     // Connections as strings
-    const filmConnections = ['Species', 'Starship', 'Vehicle', 'Person', 'Planet'];
-    const personConnections = ['Film', 'Starship', 'Vehicle' ];
-    const planetConnections = ['Person', 'Film'];
-    const speciesConnections = ['Person', 'Film'];
-    const starshipConnections = ['Person', 'Film'];
-    const vehicleConnections = ['Person', 'Film'];
+    const objectConnections: { [key: string]: string[]} = {
+      Film: ['Species', 'Starship', 'Vehicle', 'Person', 'Planet'],
+      Planet: ['Person', 'Film'],
+      Starship: ['Person', 'Film'],
+      Vehicle: ['Person', 'Film'],
+      Species: ['Person', 'Film'],
+      Person: ['Film', 'Starship', 'Vehicle'],
+    };
 
-    this.generateConnections(this.objectTypes.Film, dummy, filmConnections);
-    this.generateConnections(this.objectTypes.Person, dummy, personConnections);
-    this.generateConnections(this.objectTypes.Planet, dummy, planetConnections);
-    this.generateConnections(this.objectTypes.Species, dummy, speciesConnections);
-    this.generateConnections(this.objectTypes.Starship, dummy, starshipConnections);
-    this.generateConnections(this.objectTypes.Vehicle, dummy, vehicleConnections);
+    Object.keys(objectConnections).forEach((k) => {
+      this.generateConnections(this.objectTypes[k], dummy, objectConnections[k]);
+    });
 
     this.appendAllToSchema();
   }
