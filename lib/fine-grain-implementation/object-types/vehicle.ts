@@ -40,7 +40,7 @@ export const Vehicle = ObjectType.fromInterface('Vehicle', globals.Node, {
   definition: {
     name: scalar.string,
     model: scalar.string,
-    starshipClass: scalar.string,
+    vehicleClass: scalar.string,
     manufacturers: scalar.list_string,
     costInCredits: scalar.float,
     length: scalar.float,
