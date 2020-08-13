@@ -2,10 +2,10 @@ import * as path from 'path';
 import { writeFile } from 'fs';
 import * as cdk from '@aws-cdk/core';
 import * as appsync from '@aws-cdk/aws-appsync';
-import * as schema from './function-based-implementation/index';
+import * as schema from './dynamic-implementation/index';
 import { ObjectType } from '@aws-cdk/aws-appsync';
 
-export class StarwarsCodeFirstStack extends cdk.Stack {
+export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
   protected globals: { [key: string]: appsync.ObjectType | appsync.InterfaceType };
   protected objectTypes: { [key: string]: appsync.ObjectType };
   protected edges: appsync.ObjectType[];
@@ -55,7 +55,7 @@ export class StarwarsCodeFirstStack extends cdk.Stack {
     });
 
     this.appendAllToSchema();
-    writeFile('generated.graphql', this.api.schema.definition, (err) =>{
+    writeFile('generated.dynamic.graphql', this.api.schema.definition, (err) =>{
       if (err) throw err;
     });
   }
@@ -109,10 +109,10 @@ export class StarwarsCodeFirstStack extends cdk.Stack {
     });
 
     console.log('Appending edges');
-    this.edges.map((t) => this.api.appendToSchema(t));
+    this.edges.map((t) => this.api.appendToSchema(t.toString()));
 
     console.log('Appending connections');
-    this.connections.map((t) => this.api.appendToSchema(t));
+    this.connections.map((t) => this.api.appendToSchema(t.toString()));
 
     this.api.appendToSchema('type Query {\n  getPlanets: [Planet]\n}');
   }

@@ -340,7 +340,6 @@ type PersonConnection {
   totalCount: Int
   People: [Person]
 }
-
 type Query {
   getPlanets: [Planet]
 }

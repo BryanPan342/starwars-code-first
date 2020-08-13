@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
-import { StarwarsCodeFirstStack } from '../lib/starwars-code-first-stack';
+import { StarwarsCodeFirstDynamicStack } from '../lib/starwars-dynamic-stack';
+import { StarwarsCodeFirstFineGrainStack } from '../lib/starwars-fine-grain-stack';
 
 const app = new cdk.App();
-new StarwarsCodeFirstStack(app, 'StarwarsCodeFirstStack');
+new StarwarsCodeFirstDynamicStack(app, 'StarwarsDynamicStack');
+// new StarwarsCodeFirstFineGrainStack(app, 'StarwarsFineGrainStack');
