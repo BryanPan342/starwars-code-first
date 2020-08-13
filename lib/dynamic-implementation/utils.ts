@@ -3,32 +3,53 @@ import { ObjectType } from '@aws-cdk/aws-appsync';
 import * as globals from './global-types';
 import { required_string, int } from './scalar-types';
 
+/**
+ * The base options for creating an edge or connection
+ * 
+ * If base is Foo and target is Bar:
+ * 
+ * `FooBarsEdge | FooBarsConnection`
+ * 
+ * @option base - the prefix for this Object Type
+ * @option target - the Object Type that the prefix is connected to
+ */
 export interface baseOptions {
-  readonly prefix: string;
-  readonly objectType: ObjectType
-  readonly self?: boolean;
+  readonly base: ObjectType;
+  readonly target: ObjectType;
 };
 
+/**
+ * 
+ * @param suffix the end of the name (i.e. Edge or Connection)
+ * @param options the options associated with this name
+ */
+function obtainName(suffix: string, options: baseOptions): string {
+  const sameType: boolean = options.base == options.target;
+  const target = pluralize(options.target.name);
+  const prefix = sameType ? '' : options.base.name;
+
+  return `${prefix}${target}${suffix}`;
+}
+
 export function generateEdge(options: baseOptions): ObjectType {
-  const name = `${options.prefix}${options.self ? '' : options.objectType.name}Edge`;
+  const name = obtainName('Edge', options);
   return new ObjectType(name, {
     definition:{
-      node: options.objectType.attribute(),
+      node: options.target.attribute(),
       cursor: required_string,
     }
   });
 };
 
 export function generateConnection(edge: ObjectType, options: baseOptions): ObjectType {
-  const connection = `${options.self ? '' : options.objectType.name}`;
-  const name = `${options.prefix}${connection}Connection`;
-  const plural = pluralize(`${options.self ? options.prefix : options.objectType.name}`);
+  const name = obtainName('Connection', options);
+  const plural = pluralize(options.target.name).toLowerCase();
   return new ObjectType(name, {
     definition:{
       pageInfo: globals.PageInfo.attribute({ isRequired: true }),
       edges: edge.attribute({ isList: true }),
       totalCount: int,
-      [plural]: options.objectType.attribute({ isList: true }),
+      [plural]: options.target.attribute({ isList: true }),
     }
   });
 };

@@ -9,6 +9,7 @@ export const list_string = GraphqlType.string({ isList: true });
 export const required_string = GraphqlType.string({ isRequired: true });
 
 // ID
+export const id = GraphqlType.id();
 export const required_id = GraphqlType.id({ isRequired: true });
 
 // Boolean

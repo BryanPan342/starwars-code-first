@@ -2,7 +2,7 @@ import { ObjectType } from '@aws-cdk/aws-appsync';
 import * as scalar from './scalar-types';
 import * as globals from './global-types';
 
-export const Film = ObjectType.fromInterface('Film', globals.Node, {
+export const Film = ObjectType.implementInterface('Film', globals.Node, {
   definition: {
     title: scalar.string,
     episodeID: scalar.int,
@@ -13,7 +13,7 @@ export const Film = ObjectType.fromInterface('Film', globals.Node, {
   },
 });
 
-export const Planet = ObjectType.fromInterface('Planet', globals.Node, {
+export const Planet = ObjectType.implementInterface('Planet', globals.Node, {
   definition: {
     name: scalar.string,
     diameter: scalar.int,
@@ -27,7 +27,7 @@ export const Planet = ObjectType.fromInterface('Planet', globals.Node, {
   },
 });
 
-export const Starship = ObjectType.fromInterface('Starship', globals.Node, {
+export const Starship = ObjectType.implementInterface('Starship', globals.Node, {
   definition: {
     name: scalar.string,
     model: scalar.string,
@@ -45,7 +45,7 @@ export const Starship = ObjectType.fromInterface('Starship', globals.Node, {
   },
 });
 
-export const Vehicle = ObjectType.fromInterface('Vehicle', globals.Node, {
+export const Vehicle = ObjectType.implementInterface('Vehicle', globals.Node, {
   definition: {
     name: scalar.string,
     model: scalar.string,
@@ -61,7 +61,7 @@ export const Vehicle = ObjectType.fromInterface('Vehicle', globals.Node, {
   },
 });
 
-export const Species = ObjectType.fromInterface('Species', globals.Node, {
+export const Species = ObjectType.implementInterface('Species', globals.Node, {
   definition: {
     name: scalar.string,
     classification: scalar.string,
@@ -76,7 +76,7 @@ export const Species = ObjectType.fromInterface('Species', globals.Node, {
   },
 });
 
-export const Person = ObjectType.fromInterface('Person', globals.Node, {
+export const Person = ObjectType.implementInterface('Person', globals.Node, {
   definition: {
     name: scalar.string,
     birthYear: scalar.string,

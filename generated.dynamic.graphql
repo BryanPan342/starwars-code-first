@@ -1,0 +1,354 @@
+schema {
+  query: Root
+}
+type Root {
+  node( id: ID! ): Node
+  allFilms( after: String first: Int before: String last: Int ): FilmsConnection
+  film( id: ID filmID: ID ): Film
+  allPlanets( after: String first: Int before: String last: Int ): PlanetsConnection
+  planet( id: ID planetID: ID ): Planet
+  allStarships( after: String first: Int before: String last: Int ): StarshipsConnection
+  starship( id: ID starshipID: ID ): Starship
+  allVehicles( after: String first: Int before: String last: Int ): VehiclesConnection
+  vehicle( id: ID vehicleID: ID ): Vehicle
+  allSpecies( after: String first: Int before: String last: Int ): SpeciesConnection
+  species( id: ID speciesID: ID ): Species
+  allPeople( after: String first: Int before: String last: Int ): PeopleConnection
+  person( id: ID personID: ID ): Person
+}
+interface Node {
+  created: String
+  edited: String
+  id: ID!
+}
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+type Film {
+  title: String
+  episodeID: Int
+  openingCrawl: String
+  director: String
+  producers: [String]
+  releaseDate: String
+  created: String
+  edited: String
+  id: ID!
+  speciesConnection( after: String first: Int before: String last: Int ): FilmSpeciesConnection
+  starshipConnection( after: String first: Int before: String last: Int ): FilmStarshipsConnection
+  vehicleConnection( after: String first: Int before: String last: Int ): FilmVehiclesConnection
+  personConnection( after: String first: Int before: String last: Int ): FilmPeopleConnection
+  planetConnection( after: String first: Int before: String last: Int ): FilmPlanetsConnection
+}
+type Planet {
+  name: String
+  diameter: Int
+  rotationPeriod: Int
+  orbitalPeriod: Int
+  gravity: String
+  population: Float
+  climates: [String]
+  terrains: [String]
+  surfaceWater: Float
+  created: String
+  edited: String
+  id: ID!
+  personConnection( after: String first: Int before: String last: Int ): PlanetPeopleConnection
+  filmConnection( after: String first: Int before: String last: Int ): PlanetFilmsConnection
+}
+type Starship {
+  name: String
+  model: String
+  starshipClass: String
+  manufacturers: [String]
+  costInCredits: Float
+  length: Float
+  crew: String
+  passengers: String
+  maxAtmospheringSpeed: Int
+  hyperdriveRating: Float
+  MGLT: Int
+  cargoCapacity: Float
+  consumables: String
+  created: String
+  edited: String
+  id: ID!
+  personConnection( after: String first: Int before: String last: Int ): StarshipPeopleConnection
+  filmConnection( after: String first: Int before: String last: Int ): StarshipFilmsConnection
+}
+type Vehicle {
+  name: String
+  model: String
+  vehicleClass: String
+  manufacturers: [String]
+  costInCredits: Float
+  length: Float
+  crew: String
+  passengers: String
+  maxAtmospheringSpeed: Int
+  cargoCapacity: Float
+  consumables: String
+  created: String
+  edited: String
+  id: ID!
+  personConnection( after: String first: Int before: String last: Int ): VehiclePeopleConnection
+  filmConnection( after: String first: Int before: String last: Int ): VehicleFilmsConnection
+}
+type Species {
+  name: String
+  classification: String
+  designation: String
+  averageHeight: Float
+  averageLifespan: Int
+  eyeColors: [String]
+  hairColors: [String]
+  skinColors: [String]
+  lanuage: String
+  homeworld: Planet
+  created: String
+  edited: String
+  id: ID!
+  personConnection( after: String first: Int before: String last: Int ): SpeciesPeopleConnection
+  filmConnection( after: String first: Int before: String last: Int ): SpeciesFilmsConnection
+}
+type Person {
+  name: String
+  birthYear: String
+  gender: String
+  eyeColor: String
+  hairColor: String
+  skinColor: String
+  height: Int
+  mass: Float
+  homeworld: Planet
+  species: Species
+  created: String
+  edited: String
+  id: ID!
+  filmConnection( after: String first: Int before: String last: Int ): PersonFilmsConnection
+  starshipConnection( after: String first: Int before: String last: Int ): PersonStarshipsConnection
+  vehicleConnection( after: String first: Int before: String last: Int ): PersonVehiclesConnection
+}
+type FilmSpeciesEdge {
+  node: Species
+  cursor: String!
+}
+type FilmStarshipsEdge {
+  node: Starship
+  cursor: String!
+}
+type FilmVehiclesEdge {
+  node: Vehicle
+  cursor: String!
+}
+type FilmPeopleEdge {
+  node: Person
+  cursor: String!
+}
+type FilmPlanetsEdge {
+  node: Planet
+  cursor: String!
+}
+type PlanetPeopleEdge {
+  node: Person
+  cursor: String!
+}
+type PlanetFilmsEdge {
+  node: Film
+  cursor: String!
+}
+type StarshipPeopleEdge {
+  node: Person
+  cursor: String!
+}
+type StarshipFilmsEdge {
+  node: Film
+  cursor: String!
+}
+type VehiclePeopleEdge {
+  node: Person
+  cursor: String!
+}
+type VehicleFilmsEdge {
+  node: Film
+  cursor: String!
+}
+type SpeciesPeopleEdge {
+  node: Person
+  cursor: String!
+}
+type SpeciesFilmsEdge {
+  node: Film
+  cursor: String!
+}
+type PersonFilmsEdge {
+  node: Film
+  cursor: String!
+}
+type PersonStarshipsEdge {
+  node: Starship
+  cursor: String!
+}
+type PersonVehiclesEdge {
+  node: Vehicle
+  cursor: String!
+}
+type FilmsEdge {
+  node: Film
+  cursor: String!
+}
+type PlanetsEdge {
+  node: Planet
+  cursor: String!
+}
+type StarshipsEdge {
+  node: Starship
+  cursor: String!
+}
+type VehiclesEdge {
+  node: Vehicle
+  cursor: String!
+}
+type SpeciesEdge {
+  node: Species
+  cursor: String!
+}
+type PeopleEdge {
+  node: Person
+  cursor: String!
+}
+type FilmSpeciesConnection {
+  pageInfo: PageInfo!
+  edges: [FilmSpeciesEdge]
+  totalCount: Int
+  species: [Species]
+}
+type FilmStarshipsConnection {
+  pageInfo: PageInfo!
+  edges: [FilmStarshipsEdge]
+  totalCount: Int
+  starships: [Starship]
+}
+type FilmVehiclesConnection {
+  pageInfo: PageInfo!
+  edges: [FilmVehiclesEdge]
+  totalCount: Int
+  vehicles: [Vehicle]
+}
+type FilmPeopleConnection {
+  pageInfo: PageInfo!
+  edges: [FilmPeopleEdge]
+  totalCount: Int
+  people: [Person]
+}
+type FilmPlanetsConnection {
+  pageInfo: PageInfo!
+  edges: [FilmPlanetsEdge]
+  totalCount: Int
+  planets: [Planet]
+}
+type PlanetPeopleConnection {
+  pageInfo: PageInfo!
+  edges: [PlanetPeopleEdge]
+  totalCount: Int
+  people: [Person]
+}
+type PlanetFilmsConnection {
+  pageInfo: PageInfo!
+  edges: [PlanetFilmsEdge]
+  totalCount: Int
+  films: [Film]
+}
+type StarshipPeopleConnection {
+  pageInfo: PageInfo!
+  edges: [StarshipPeopleEdge]
+  totalCount: Int
+  people: [Person]
+}
+type StarshipFilmsConnection {
+  pageInfo: PageInfo!
+  edges: [StarshipFilmsEdge]
+  totalCount: Int
+  films: [Film]
+}
+type VehiclePeopleConnection {
+  pageInfo: PageInfo!
+  edges: [VehiclePeopleEdge]
+  totalCount: Int
+  people: [Person]
+}
+type VehicleFilmsConnection {
+  pageInfo: PageInfo!
+  edges: [VehicleFilmsEdge]
+  totalCount: Int
+  films: [Film]
+}
+type SpeciesPeopleConnection {
+  pageInfo: PageInfo!
+  edges: [SpeciesPeopleEdge]
+  totalCount: Int
+  people: [Person]
+}
+type SpeciesFilmsConnection {
+  pageInfo: PageInfo!
+  edges: [SpeciesFilmsEdge]
+  totalCount: Int
+  films: [Film]
+}
+type PersonFilmsConnection {
+  pageInfo: PageInfo!
+  edges: [PersonFilmsEdge]
+  totalCount: Int
+  films: [Film]
+}
+type PersonStarshipsConnection {
+  pageInfo: PageInfo!
+  edges: [PersonStarshipsEdge]
+  totalCount: Int
+  starships: [Starship]
+}
+type PersonVehiclesConnection {
+  pageInfo: PageInfo!
+  edges: [PersonVehiclesEdge]
+  totalCount: Int
+  vehicles: [Vehicle]
+}
+type FilmsConnection {
+  pageInfo: PageInfo!
+  edges: [FilmsEdge]
+  totalCount: Int
+  films: [Film]
+}
+type PlanetsConnection {
+  pageInfo: PageInfo!
+  edges: [PlanetsEdge]
+  totalCount: Int
+  planets: [Planet]
+}
+type StarshipsConnection {
+  pageInfo: PageInfo!
+  edges: [StarshipsEdge]
+  totalCount: Int
+  starships: [Starship]
+}
+type VehiclesConnection {
+  pageInfo: PageInfo!
+  edges: [VehiclesEdge]
+  totalCount: Int
+  vehicles: [Vehicle]
+}
+type SpeciesConnection {
+  pageInfo: PageInfo!
+  edges: [SpeciesEdge]
+  totalCount: Int
+  species: [Species]
+}
+type PeopleConnection {
+  pageInfo: PageInfo!
+  edges: [PeopleEdge]
+  totalCount: Int
+  people: [Person]
+}
