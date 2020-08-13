@@ -1,4 +1,4 @@
-import { ObjectType } from '@aws-cdk/aws-appsync';
+import { ObjectType, InterfaceType } from '@aws-cdk/aws-appsync';
 import * as scalar from './scalar-types';
 
 export const PageInfo = new ObjectType('PageInfo', {
@@ -10,10 +10,8 @@ export const PageInfo = new ObjectType('PageInfo', {
   },
 });
 
-export const required_PageInfo = PageInfo.attribute({ isRequired: true });
-
-export const Node = new Interface('Node', {
-  defintion: {
+export const Node = new InterfaceType('Node', {
+  definition: {
     created: scalar.string,
     edited: scalar. string,
     id: scalar.required_id,

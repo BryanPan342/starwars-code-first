@@ -71,7 +71,7 @@ export class StarwarsCodeFirstStack extends cdk.Stack {
   private generateAndAppendConnection(base: ObjectType, dataSource: appsync.BaseDataSource, options: schema.baseOptions): void{
     const link = schema.generateConnectionAndEdge(options);
     const fieldName = `${options.objectType.name}Connection`;
-    base.addResolvableType(fieldName, dataSource, {
+    base.addResolvableField(fieldName, dataSource, {
       type: options.objectType,
       args: schema.args,
       request: ...,
@@ -82,8 +82,8 @@ export class StarwarsCodeFirstStack extends cdk.Stack {
   }
 
   private appendAllToSchema(): void{
-    Object.keys(this.globals).forEach( (k) => { this.api.appendToSchema(this.globals.k); });
-    Object.keys(this.objectTypes).forEach( (k) => { this.api.appendToSchema(this.objectTypes.k); });
+    Object.keys(this.globals).forEach( (k) => { this.api.appendToSchema(this.globals[k]); });
+    Object.keys(this.objectTypes).forEach( (k) => { this.api.appendToSchema(this.objectTypes[k]); });
     this.edges.map((t) => this.api.appendToSchema(t));
     this.connections.map((t) => this.api.appendToSchema(t));
   }

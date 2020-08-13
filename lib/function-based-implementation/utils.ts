@@ -25,10 +25,10 @@ export function generateConnection(edge: ObjectType, options: baseOptions): Obje
   const plural = Pluralize(connection);
   return new ObjectType(name, {
     definition:{
-      pageInfo: globals.required_PageInfo,
+      pageInfo: globals.PageInfo.attribute({ isRequired: true }),
       edges: edge.attribute({ isList: true }),
       totalCount: int,
-      plural: options.objectType.attribute({ isList: true }),
+      [plural]: options.objectType.attribute({ isList: true }),
     }
   });
 };

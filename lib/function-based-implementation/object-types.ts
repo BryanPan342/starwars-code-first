@@ -91,4 +91,3 @@ export const Person = ObjectType.fromInterface('Person', globals.Node, {
     species: Species.attribute(),
   },
 });
-
