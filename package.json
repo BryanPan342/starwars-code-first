@@ -12,7 +12,7 @@
     "postinstall": "../../aws-cdk/link-all.sh"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.55.0",
+    "@aws-cdk/assert": "1.57.0",
     "@types/jest": "^25.2.1",
     "@types/node": "10.17.5",
     "jest": "^25.5.0",
@@ -22,8 +22,10 @@
     "typescript": "~3.7.2"
   },
   "dependencies": {
-    "@aws-cdk/aws-appsync": "1.55.0",
-    "@aws-cdk/core": "1.55.0",
+    "@aws-cdk/aws-appsync": "1.57.0",
+    "@aws-cdk/core": "1.57.0",
+    "@types/pluralize": "0.0.29",
+    "pluralize": "^8.0.0",
     "source-map-support": "^0.5.16"
   }
 }

@@ -61,7 +61,6 @@ export const Vehicle = ObjectType.fromInterface('Vehicle', globals.Node, {
   },
 });
 
-
 export const Species = ObjectType.fromInterface('Species', globals.Node, {
   definition: {
     name: scalar.string,

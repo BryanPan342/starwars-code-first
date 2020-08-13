@@ -1,4 +1,4 @@
-import Pluralize from 'pluralize';
+var pluralize = require('pluralize');
 import { ObjectType } from '@aws-cdk/aws-appsync';
 import * as globals from './global-types';
 import { required_string, int } from './scalar-types';
@@ -22,7 +22,7 @@ export function generateEdge(options: baseOptions): ObjectType {
 export function generateConnection(edge: ObjectType, options: baseOptions): ObjectType {
   const connection = `${options.self ? '' : options.objectType.name}`;
   const name = `${options.prefix}${connection}Connection`;
-  const plural = Pluralize(connection);
+  const plural = pluralize(`${options.self ? options.prefix : options.objectType.name}`);
   return new ObjectType(name, {
     definition:{
       pageInfo: globals.PageInfo.attribute({ isRequired: true }),
