@@ -5,16 +5,40 @@ import * as cdk from '@aws-cdk/core';
 import * as appsync from '@aws-cdk/aws-appsync';
 import * as schema from './dynamic-implementation/index';
 
+/**
+ * A placeholder request mapping template
+ */
 const dummyRequest = appsync.MappingTemplate.fromFile(path.join(__dirname, "mapping-templates", "empty-request.vtl"));
+/**
+ * A placeholder response mapping template
+ */
 const dummyResponse = appsync.MappingTemplate.fromFile(path.join(__dirname, "mapping-templates", "empty-response.vtl"));
 
 export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
 
+  /**
+   * Types used by other types (i.e. interface Node, type PageInfo)
+   */
   protected globals: { [key: string]: appsync.ObjectType | appsync.InterfaceType };
+  /**
+   * Object Types (i.e. Film, Person, Starship, etc.)
+   */
   protected objectTypes: { [key: string]: appsync.ObjectType };
+  /**
+   * Edges between two Object Types (i.e. FilmStarshipEdge, etc.)
+   */
   protected edges: appsync.ObjectType[];
+  /**
+   * Connections between two Object Types (i.e. FilmStarshipsEdges, etc.)
+   */
   protected connections: appsync.ObjectType[];
+  /**
+   * The Root type for Queries
+   */
   protected root: appsync.ObjectType;
+  /**
+   * the GraphQL Api for this 
+   */
   protected api: appsync.GraphQLApi;
 
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -25,6 +49,9 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
       schemaDefinition: appsync.SchemaDefinition.CODE,
     });
 
+    /**
+     * A placeholder data source
+     */
     const dummy = this.api.addNoneDataSource('DummyDS', 'Just to fill up space');
 
     this.globals = {
@@ -44,7 +71,12 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
     this.edges = [];
     this.connections = [];
 
-    // Connections as strings
+    /**
+     * A dictionary of Object Types and its targets (represented as a string)
+     *
+     * key => base object type
+     * value[i] => string value of target object type
+     */
     const objectConnections: { [key: string]: string[]} = {
       Film: ['Species', 'Starship', 'Vehicle', 'Person', 'Planet'],
       Planet: ['Person', 'Film'],
