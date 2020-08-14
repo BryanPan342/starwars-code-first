@@ -1,8 +1,16 @@
-import { ObjectType } from '@aws-cdk/aws-appsync';
+import { ObjectType, InterfaceType } from '@aws-cdk/aws-appsync';
 import * as scalar from './scalar-types';
-import * as globals from './global-types';
 
-export const Film = ObjectType.implementInterface('Film', globals.Node, {
+export const Node = new InterfaceType('Node', {
+  definition: {
+    created: scalar.string,
+    edited: scalar. string,
+    id: scalar.required_id,
+  },
+});
+
+export const Film = ObjectType.implementInterface('Film', {
+  interfaceType: Node,
   definition: {
     title: scalar.string,
     episodeID: scalar.int,
@@ -13,7 +21,8 @@ export const Film = ObjectType.implementInterface('Film', globals.Node, {
   },
 });
 
-export const Planet = ObjectType.implementInterface('Planet', globals.Node, {
+export const Planet = ObjectType.implementInterface('Planet', {
+  interfaceType: Node,
   definition: {
     name: scalar.string,
     diameter: scalar.int,
@@ -27,7 +36,8 @@ export const Planet = ObjectType.implementInterface('Planet', globals.Node, {
   },
 });
 
-export const Starship = ObjectType.implementInterface('Starship', globals.Node, {
+export const Starship = ObjectType.implementInterface('Starship', {
+  interfaceType: Node,
   definition: {
     name: scalar.string,
     model: scalar.string,
@@ -45,7 +55,8 @@ export const Starship = ObjectType.implementInterface('Starship', globals.Node, 
   },
 });
 
-export const Vehicle = ObjectType.implementInterface('Vehicle', globals.Node, {
+export const Vehicle = ObjectType.implementInterface('Vehicle', {
+  interfaceType: Node,
   definition: {
     name: scalar.string,
     model: scalar.string,
@@ -61,7 +72,8 @@ export const Vehicle = ObjectType.implementInterface('Vehicle', globals.Node, {
   },
 });
 
-export const Species = ObjectType.implementInterface('Species', globals.Node, {
+export const Species = ObjectType.implementInterface('Species', {
+  interfaceType: Node,
   definition: {
     name: scalar.string,
     classification: scalar.string,
@@ -76,7 +88,8 @@ export const Species = ObjectType.implementInterface('Species', globals.Node, {
   },
 });
 
-export const Person = ObjectType.implementInterface('Person', globals.Node, {
+export const Person = ObjectType.implementInterface('Person', {
+  interfaceType: Node,
   definition: {
     name: scalar.string,
     birthYear: scalar.string,
