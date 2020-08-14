@@ -72,10 +72,10 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
     this.connections = [];
 
     /**
-     * A dictionary of Object Types and its targets (represented as a string)
+     * A dictionary of Object Types and its targets
      *
      * key => base object type
-     * value[i] => string value of target object type
+     * value[i] => target object type
      */
     const objectTargets: { [key: string]: appsync.ObjectType[]} = {
       Film: [schema.Species, schema.Starship, schema.Vehicle, schema.Person, schema.Planet],
