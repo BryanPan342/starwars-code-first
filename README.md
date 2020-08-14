@@ -5,6 +5,11 @@ AWS Cloud Development Kit ([CDK](https://github.com/aws/aws-cdk)).
 
 Adapted from the swapi-graphql starwars [schema](https://swapi.dev/).
 
+- [Dynamic Schema Generation](#Dynamic-Schema-Generation)
+  - [Problem Overview](#Problem-Overview)
+  - [File Overview](#File-Overview)
+  - [Modularity](#Modularity)
+
 ## Dynamic Schema Generation
 
 AWS Cloud Development Kit offers dynamic schema generation that reduces code 
@@ -15,7 +20,7 @@ identical.
 The following section will cover how we can take advantage of CDK's code-first
 functionality to tackle dynamic schema generation. 
 
-### Overview
+### Problem Overview
 
 There are 6 object types in the SWAPI Schema:
 - Film
