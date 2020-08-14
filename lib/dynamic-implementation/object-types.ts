@@ -10,7 +10,7 @@ export const Node = new InterfaceType('Node', {
 });
 
 export const Film = ObjectType.implementInterface('Film', {
-  interfaceType: Node,
+  interfaceTypes: [Node],
   definition: {
     title: scalar.string,
     episodeID: scalar.int,
@@ -22,7 +22,7 @@ export const Film = ObjectType.implementInterface('Film', {
 });
 
 export const Planet = ObjectType.implementInterface('Planet', {
-  interfaceType: Node,
+  interfaceTypes: [Node],
   definition: {
     name: scalar.string,
     diameter: scalar.int,
@@ -37,7 +37,7 @@ export const Planet = ObjectType.implementInterface('Planet', {
 });
 
 export const Starship = ObjectType.implementInterface('Starship', {
-  interfaceType: Node,
+  interfaceTypes: [Node],
   definition: {
     name: scalar.string,
     model: scalar.string,
@@ -56,7 +56,7 @@ export const Starship = ObjectType.implementInterface('Starship', {
 });
 
 export const Vehicle = ObjectType.implementInterface('Vehicle', {
-  interfaceType: Node,
+  interfaceTypes: [Node],
   definition: {
     name: scalar.string,
     model: scalar.string,
@@ -73,7 +73,7 @@ export const Vehicle = ObjectType.implementInterface('Vehicle', {
 });
 
 export const Species = ObjectType.implementInterface('Species', {
-  interfaceType: Node,
+  interfaceTypes: [Node],
   definition: {
     name: scalar.string,
     classification: scalar.string,
@@ -89,7 +89,7 @@ export const Species = ObjectType.implementInterface('Species', {
 });
 
 export const Person = ObjectType.implementInterface('Person', {
-  interfaceType: Node,
+  interfaceTypes: [Node],
   definition: {
     name: scalar.string,
     birthYear: scalar.string,

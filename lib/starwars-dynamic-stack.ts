@@ -77,19 +77,18 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
      * key => base object type
      * value[i] => string value of target object type
      */
-    const objectConnections: { [key: string]: string[]} = {
-      Film: ['Species', 'Starship', 'Vehicle', 'Person', 'Planet'],
-      Planet: ['Person', 'Film'],
-      Starship: ['Person', 'Film'],
-      Vehicle: ['Person', 'Film'],
-      Species: ['Person', 'Film'],
-      Person: ['Film', 'Starship', 'Vehicle'],
+    const objectTargets: { [key: string]: appsync.ObjectType[]} = {
+      Film: [schema.Species, schema.Starship, schema.Vehicle, schema.Person, schema.Planet],
+      Planet: [schema.Person, schema.Film],
+      Starship: [schema.Person, schema.Film],
+      Vehicle: [schema.Person, schema.Film],
+      Species: [schema.Person, schema.Film],
+      Person: [schema.Film, schema.Starship, schema.Vehicle],
     };
 
     // Generating all Connections, Edges and their Resolvers
-    Object.keys(objectConnections).forEach((k) => {
-      const targets = objectConnections[k].map((type) => this.objectTypes[type]);
-      this.generateTargets(this.objectTypes[k], dummy, targets);
+    Object.keys(objectTargets).forEach((base) => {
+      this.generateTargets(this.objectTypes[base], dummy, objectTargets[base]);
     });
 
     // Creating the Root Object Type (our query)

@@ -2,19 +2,19 @@ schema {
   query: Root
 }
 type Root {
-  node: Node
-  allFilms: FilmsConnection
-  film: Film
-  allPlanets: PlanetsConnection
-  planet: Planet
-  allStarships: StarshipsConnection
-  starship: Starship
-  allVehicles: VehiclesConnection
-  vehicle: Vehicle
-  allSpecies: SpeciesConnection
-  species: Species
-  allPeople: PeopleConnection
-  person: Person
+  node( id: ID! ): Node
+  allFilms( after: String first: Int before: String last: Int ): FilmsConnection
+  film( id: ID filmID: ID ): Film
+  allPlanets( after: String first: Int before: String last: Int ): PlanetsConnection
+  planet( id: ID planetID: ID ): Planet
+  allStarships( after: String first: Int before: String last: Int ): StarshipsConnection
+  starship( id: ID starshipID: ID ): Starship
+  allVehicles( after: String first: Int before: String last: Int ): VehiclesConnection
+  vehicle( id: ID vehicleID: ID ): Vehicle
+  allSpecies( after: String first: Int before: String last: Int ): SpeciesConnection
+  species( id: ID speciesID: ID ): Species
+  allPeople( after: String first: Int before: String last: Int ): PeopleConnection
+  person( id: ID personID: ID ): Person
 }
 interface Node {
   created: String
@@ -37,11 +37,11 @@ type Film implements Node {
   created: String
   edited: String
   id: ID!
-  speciesConnection: FilmSpeciesConnection
-  starshipConnection: FilmStarshipsConnection
-  vehicleConnection: FilmVehiclesConnection
-  personConnection: FilmPeopleConnection
-  planetConnection: FilmPlanetsConnection
+  speciesConnection( after: String first: Int before: String last: Int ): FilmSpeciesConnection
+  starshipConnection( after: String first: Int before: String last: Int ): FilmStarshipsConnection
+  vehicleConnection( after: String first: Int before: String last: Int ): FilmVehiclesConnection
+  personConnection( after: String first: Int before: String last: Int ): FilmPeopleConnection
+  planetConnection( after: String first: Int before: String last: Int ): FilmPlanetsConnection
 }
 type Planet implements Node {
   name: String
@@ -56,8 +56,8 @@ type Planet implements Node {
   created: String
   edited: String
   id: ID!
-  personConnection: PlanetPeopleConnection
-  filmConnection: PlanetFilmsConnection
+  personConnection( after: String first: Int before: String last: Int ): PlanetPeopleConnection
+  filmConnection( after: String first: Int before: String last: Int ): PlanetFilmsConnection
 }
 type Starship implements Node {
   name: String
@@ -76,8 +76,8 @@ type Starship implements Node {
   created: String
   edited: String
   id: ID!
-  personConnection: StarshipPeopleConnection
-  filmConnection: StarshipFilmsConnection
+  personConnection( after: String first: Int before: String last: Int ): StarshipPeopleConnection
+  filmConnection( after: String first: Int before: String last: Int ): StarshipFilmsConnection
 }
 type Vehicle implements Node {
   name: String
@@ -94,8 +94,8 @@ type Vehicle implements Node {
   created: String
   edited: String
   id: ID!
-  personConnection: VehiclePeopleConnection
-  filmConnection: VehicleFilmsConnection
+  personConnection( after: String first: Int before: String last: Int ): VehiclePeopleConnection
+  filmConnection( after: String first: Int before: String last: Int ): VehicleFilmsConnection
 }
 type Species implements Node {
   name: String
@@ -111,8 +111,8 @@ type Species implements Node {
   created: String
   edited: String
   id: ID!
-  personConnection: SpeciesPeopleConnection
-  filmConnection: SpeciesFilmsConnection
+  personConnection( after: String first: Int before: String last: Int ): SpeciesPeopleConnection
+  filmConnection( after: String first: Int before: String last: Int ): SpeciesFilmsConnection
 }
 type Person implements Node {
   name: String
@@ -128,9 +128,9 @@ type Person implements Node {
   created: String
   edited: String
   id: ID!
-  filmConnection: PersonFilmsConnection
-  starshipConnection: PersonStarshipsConnection
-  vehicleConnection: PersonVehiclesConnection
+  filmConnection( after: String first: Int before: String last: Int ): PersonFilmsConnection
+  starshipConnection( after: String first: Int before: String last: Int ): PersonStarshipsConnection
+  vehicleConnection( after: String first: Int before: String last: Int ): PersonVehiclesConnection
 }
 type FilmSpeciesEdge {
   node: Species
