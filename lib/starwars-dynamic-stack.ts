@@ -72,23 +72,41 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
     this.connections = [];
 
     /**
-     * A dictionary of Object Types and its targets
+     * An array for object type connections
      *
-     * key => base object type
-     * value[i] => target object type
+     * base: the base object type
+     * targets: the targets to connect between
      */
-    const objectTargets: { [key: string]: appsync.ObjectType[]} = {
-      Film: [schema.Species, schema.Starship, schema.Vehicle, schema.Person, schema.Planet],
-      Planet: [schema.Person, schema.Film],
-      Starship: [schema.Person, schema.Film],
-      Vehicle: [schema.Person, schema.Film],
-      Species: [schema.Person, schema.Film],
-      Person: [schema.Film, schema.Starship, schema.Vehicle],
-    };
+    const objectTargets: {base: appsync.ObjectType, targets: appsync.ObjectType[]}[] = [
+      {
+        base: schema.Film,
+        targets: [schema.Species, schema.Starship, schema.Vehicle, schema.Person, schema.Planet],
+      },
+      {
+        base: schema.Planet,
+        targets: [schema.Person, schema.Film],
+      },
+      {
+        base: schema.Starship,
+        targets: [schema.Person, schema.Film],
+      },
+      {
+        base: schema.Vehicle,
+        targets: [schema.Person, schema.Film],
+      },
+      {
+        base: schema.Species,
+        targets: [schema.Person, schema.Film],
+      },
+      {
+        base: schema.Person,
+        targets: [schema.Film, schema.Starship, schema.Vehicle],
+      },
+    ];
 
     // Generating all Connections, Edges and their Resolvers
-    Object.keys(objectTargets).forEach((base) => {
-      this.generateTargets(this.objectTypes[base], dummy, objectTargets[base]);
+    objectTargets.map((connection) => {
+      this.generateTargets(connection.base, dummy, connection.targets);
     });
 
     // Creating the Root Object Type (our query)
