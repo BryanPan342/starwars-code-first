@@ -52,7 +52,7 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
     /**
      * A placeholder data source
      */
-    const dummy = this.api.addNoneDataSource('DummyDS', 'Just to fill up space');
+    const dummy = this.api.addNoneDataSource('DummyDS');
 
     this.globals = {
       Node: schema.Node,
