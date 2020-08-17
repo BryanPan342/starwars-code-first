@@ -133,9 +133,8 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
         target: objectType,
       });
 
-      // Generate single type queries: type(id: ID, typeID: ID): Type
-      // i.e. film(id: ID, filmID: ID): Film
-      this.root.addResolvableField(fieldName, objectType.attribute(), {
+      // Create the Resolvable Field for base object type
+      const field = objectType.attribute().addResolvableField({
         dataSource: dummy,
         args: {
           id: schema.id,
@@ -144,6 +143,10 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
         requestMappingTemplate: dummyRequest,
         responseMappingTemplate: dummyResponse,
       });
+
+      // Generate single type queries: type(id: ID, typeID: ID): Type
+      // i.e. film(id: ID, filmID: ID): Film
+      this.root.addField(fieldName, field);
     });
 
     this.appendAllToSchema();
@@ -184,13 +187,16 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
       `all${pluralize(options.target.name)}` :
       `${options.target.name.toLowerCase()}Connection`;
 
-    // Create Resolver and add field to base Object Type
-    base.addResolvableField(fieldName, link.connection.attribute(), {
+    // Create the Resolvable Field for base object type
+    const field = link.connection.attribute().addResolvableField({
       dataSource,
       args: schema.args,
       requestMappingTemplate: dummyRequest,
       responseMappingTemplate: dummyResponse,
     });
+
+    // Create Resolver and add field to base Object Type
+    base.addField(fieldName, field);
   
     // Push Edges and Connections to class member variable
     this.edges.push(link.edge);
