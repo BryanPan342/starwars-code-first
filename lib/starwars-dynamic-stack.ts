@@ -112,7 +112,8 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
     // Creating the Root Object Type (our query)
     this.root = new appsync.ObjectType('Root', {
       definition: {
-        node: new appsync.ResolvableField(this.globals.Node.attribute(), dummy, {
+        node: this.globals.Node.attribute().addResolvableField({
+          dataSource: dummy,
           args: { id: schema.required_id },
           requestMappingTemplate: dummyRequest,
           responseMappingTemplate: dummyResponse,
@@ -134,7 +135,8 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
 
       // Generate single type queries: type(id: ID, typeID: ID): Type
       // i.e. film(id: ID, filmID: ID): Film
-      this.root.addResolvableField(fieldName, objectType.attribute(), dummy, {
+      this.root.addResolvableField(fieldName, objectType.attribute(), {
+        dataSource: dummy,
         args: {
           id: schema.id,
           [`${fieldName}ID`]: schema.id,
@@ -183,7 +185,8 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
       `${options.target.name.toLowerCase()}Connection`;
 
     // Create Resolver and add field to base Object Type
-    base.addResolvableField(fieldName, link.connection.attribute(), dataSource, {
+    base.addResolvableField(fieldName, link.connection.attribute(), {
+      dataSource,
       args: schema.args,
       requestMappingTemplate: dummyRequest,
       responseMappingTemplate: dummyResponse,
