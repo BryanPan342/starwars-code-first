@@ -1,6 +1,5 @@
 const pluralize = require('pluralize');
 import * as path from 'path';
-import { writeFile } from 'fs';
 import * as cdk from '@aws-cdk/core';
 import * as appsync from '@aws-cdk/aws-appsync';
 import * as schema from './dynamic-implementation/index';
@@ -152,10 +151,6 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
     });
 
     this.appendAllToSchema();
-    const out = cdk.Lazy.stringValue({produce: () => this.api.schema.definition});
-    writeFile('generated.dynamic.graphql', out, (err) =>{
-      if (err) throw err;
-    });
   }
 
   /**
