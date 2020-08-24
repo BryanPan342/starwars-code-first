@@ -46,7 +46,7 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
 
     this.api = new appsync.GraphQLApi(this, 'SWAPI', {
       name: "SWAPI",
-      schemaDefinition: appsync.SchemaDefinition.CODE,
+      schema: appsync.Schema.fromCode(),
     });
 
     /**
@@ -108,9 +108,9 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
     objectTargets.map((connection) => {
       this.generateTargets(connection.base, dummy, connection.targets);
     });
-
     // Creating the Root Object Type (our query)
-    this.root = new appsync.ObjectType('Root', {
+    this.api.appendToSchema('schema {\n  query: Root\n}');
+    this.root = this.api.addObjectType('Root', {
       definition: {
         node: new appsync.ResolvableField({
           returnType: this.globals.Node.attribute(),
@@ -152,8 +152,8 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
     });
 
     this.appendAllToSchema();
-    
-    writeFile('generated.dynamic.graphql', this.api.schema.definition, (err) =>{
+    const out = cdk.Lazy.stringValue({produce: () => this.api.schema.definition});
+    writeFile('generated.dynamic.graphql', out, (err) =>{
       if (err) throw err;
     });
   }
@@ -211,18 +211,15 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
    */
   private appendAllToSchema(): void{
     // Utility Functions
-    const append = (input: string) => { this.api.appendToSchema(input); }
-    const map = (dict: { [key: string]: appsync.ObjectType | appsync.InterfaceType } ) => {
-      Object.keys(dict).forEach((key) => { append(dict[key].toString()); })
+    const map = (dict: { [key: string]: appsync.IIntermediateType } ) => {
+      Object.keys(dict).forEach((key) => { this.api.addType(dict[key]); })
     };
 
     // Appending to schema
-    append('schema {\n  query: Root\n}');
-    append(this.root.toString());
     map(this.globals);
     map(this.objectTypes);
-    this.edges.map((t) => this.api.appendToSchema(t.toString()));
-    this.connections.map((t) => this.api.appendToSchema(t.toString()));
+    this.edges.map((t) => this.api.addType(t));
+    this.connections.map((t) => this.api.addType(t));
 
   }
 }

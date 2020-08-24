@@ -1,0 +1,758 @@
+{
+  "Resources": {
+    "SWAPIF75D9180": {
+      "Type": "AWS::AppSync::GraphQLApi",
+      "Properties": {
+        "AuthenticationType": "API_KEY",
+        "Name": "SWAPI"
+      },
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/Resource"
+      }
+    },
+    "SWAPISchema10C907DB": {
+      "Type": "AWS::AppSync::GraphQLSchema",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "Definition": "schema {\n  query: Root\n}\ntype Root {\n  node(id: ID!): Node\n  allFilms(after: String first: Int before: String last: Int): FilmsConnection\n  film(id: ID filmID: ID): Film\n  allPlanets(after: String first: Int before: String last: Int): PlanetsConnection\n  planet(id: ID planetID: ID): Planet\n  allStarships(after: String first: Int before: String last: Int): StarshipsConnection\n  starship(id: ID starshipID: ID): Starship\n  allVehicles(after: String first: Int before: String last: Int): VehiclesConnection\n  vehicle(id: ID vehicleID: ID): Vehicle\n  allSpecies(after: String first: Int before: String last: Int): SpeciesConnection\n  species(id: ID speciesID: ID): Species\n  allPeople(after: String first: Int before: String last: Int): PeopleConnection\n  person(id: ID personID: ID): Person\n}\ninterface Node {\n  created: String\n  edited: String\n  id: ID!\n}\ntype PageInfo {\n  hasNextPage: Boolean!\n  hasPreviousPage: Boolean!\n  startCursor: String\n  endCursor: String\n}\ntype Film implements Node {\n  title: String\n  episodeID: Int\n  openingCrawl: String\n  director: String\n  producers: [String]\n  releaseDate: String\n  created: String\n  edited: String\n  id: ID!\n  speciesConnection(after: String first: Int before: String last: Int): FilmSpeciesConnection\n  starshipConnection(after: String first: Int before: String last: Int): FilmStarshipsConnection\n  vehicleConnection(after: String first: Int before: String last: Int): FilmVehiclesConnection\n  personConnection(after: String first: Int before: String last: Int): FilmPeopleConnection\n  planetConnection(after: String first: Int before: String last: Int): FilmPlanetsConnection\n}\ntype Planet implements Node {\n  name: String\n  diameter: Int\n  rotationPeriod: Int\n  orbitalPeriod: Int\n  gravity: String\n  population: Float\n  climates: [String]\n  terrains: [String]\n  surfaceWater: Float\n  created: String\n  edited: String\n  id: ID!\n  personConnection(after: String first: Int before: String last: Int): PlanetPeopleConnection\n  filmConnection(after: String first: Int before: String last: Int): PlanetFilmsConnection\n}\ntype Starship implements Node {\n  name: String\n  model: String\n  starshipClass: String\n  manufacturers: [String]\n  costInCredits: Float\n  length: Float\n  crew: String\n  passengers: String\n  maxAtmospheringSpeed: Int\n  hyperdriveRating: Float\n  MGLT: Int\n  cargoCapacity: Float\n  consumables: String\n  created: String\n  edited: String\n  id: ID!\n  personConnection(after: String first: Int before: String last: Int): StarshipPeopleConnection\n  filmConnection(after: String first: Int before: String last: Int): StarshipFilmsConnection\n}\ntype Vehicle implements Node {\n  name: String\n  model: String\n  vehicleClass: String\n  manufacturers: [String]\n  costInCredits: Float\n  length: Float\n  crew: String\n  passengers: String\n  maxAtmospheringSpeed: Int\n  cargoCapacity: Float\n  consumables: String\n  created: String\n  edited: String\n  id: ID!\n  personConnection(after: String first: Int before: String last: Int): VehiclePeopleConnection\n  filmConnection(after: String first: Int before: String last: Int): VehicleFilmsConnection\n}\ntype Species implements Node {\n  name: String\n  classification: String\n  designation: String\n  averageHeight: Float\n  averageLifespan: Int\n  eyeColors: [String]\n  hairColors: [String]\n  skinColors: [String]\n  lanuage: String\n  homeworld: Planet\n  created: String\n  edited: String\n  id: ID!\n  personConnection(after: String first: Int before: String last: Int): SpeciesPeopleConnection\n  filmConnection(after: String first: Int before: String last: Int): SpeciesFilmsConnection\n}\ntype Person implements Node {\n  name: String\n  birthYear: String\n  gender: String\n  eyeColor: String\n  hairColor: String\n  skinColor: String\n  height: Int\n  mass: Float\n  homeworld: Planet\n  species: Species\n  created: String\n  edited: String\n  id: ID!\n  filmConnection(after: String first: Int before: String last: Int): PersonFilmsConnection\n  starshipConnection(after: String first: Int before: String last: Int): PersonStarshipsConnection\n  vehicleConnection(after: String first: Int before: String last: Int): PersonVehiclesConnection\n}\ntype FilmSpeciesEdge {\n  node: Species\n  cursor: String!\n}\ntype FilmStarshipsEdge {\n  node: Starship\n  cursor: String!\n}\ntype FilmVehiclesEdge {\n  node: Vehicle\n  cursor: String!\n}\ntype FilmPeopleEdge {\n  node: Person\n  cursor: String!\n}\ntype FilmPlanetsEdge {\n  node: Planet\n  cursor: String!\n}\ntype PlanetPeopleEdge {\n  node: Person\n  cursor: String!\n}\ntype PlanetFilmsEdge {\n  node: Film\n  cursor: String!\n}\ntype StarshipPeopleEdge {\n  node: Person\n  cursor: String!\n}\ntype StarshipFilmsEdge {\n  node: Film\n  cursor: String!\n}\ntype VehiclePeopleEdge {\n  node: Person\n  cursor: String!\n}\ntype VehicleFilmsEdge {\n  node: Film\n  cursor: String!\n}\ntype SpeciesPeopleEdge {\n  node: Person\n  cursor: String!\n}\ntype SpeciesFilmsEdge {\n  node: Film\n  cursor: String!\n}\ntype PersonFilmsEdge {\n  node: Film\n  cursor: String!\n}\ntype PersonStarshipsEdge {\n  node: Starship\n  cursor: String!\n}\ntype PersonVehiclesEdge {\n  node: Vehicle\n  cursor: String!\n}\ntype FilmsEdge {\n  node: Film\n  cursor: String!\n}\ntype PlanetsEdge {\n  node: Planet\n  cursor: String!\n}\ntype StarshipsEdge {\n  node: Starship\n  cursor: String!\n}\ntype VehiclesEdge {\n  node: Vehicle\n  cursor: String!\n}\ntype SpeciesEdge {\n  node: Species\n  cursor: String!\n}\ntype PeopleEdge {\n  node: Person\n  cursor: String!\n}\ntype FilmSpeciesConnection {\n  pageInfo: PageInfo!\n  edges: [FilmSpeciesEdge]\n  totalCount: Int\n  species: [Species]\n}\ntype FilmStarshipsConnection {\n  pageInfo: PageInfo!\n  edges: [FilmStarshipsEdge]\n  totalCount: Int\n  starships: [Starship]\n}\ntype FilmVehiclesConnection {\n  pageInfo: PageInfo!\n  edges: [FilmVehiclesEdge]\n  totalCount: Int\n  vehicles: [Vehicle]\n}\ntype FilmPeopleConnection {\n  pageInfo: PageInfo!\n  edges: [FilmPeopleEdge]\n  totalCount: Int\n  people: [Person]\n}\ntype FilmPlanetsConnection {\n  pageInfo: PageInfo!\n  edges: [FilmPlanetsEdge]\n  totalCount: Int\n  planets: [Planet]\n}\ntype PlanetPeopleConnection {\n  pageInfo: PageInfo!\n  edges: [PlanetPeopleEdge]\n  totalCount: Int\n  people: [Person]\n}\ntype PlanetFilmsConnection {\n  pageInfo: PageInfo!\n  edges: [PlanetFilmsEdge]\n  totalCount: Int\n  films: [Film]\n}\ntype StarshipPeopleConnection {\n  pageInfo: PageInfo!\n  edges: [StarshipPeopleEdge]\n  totalCount: Int\n  people: [Person]\n}\ntype StarshipFilmsConnection {\n  pageInfo: PageInfo!\n  edges: [StarshipFilmsEdge]\n  totalCount: Int\n  films: [Film]\n}\ntype VehiclePeopleConnection {\n  pageInfo: PageInfo!\n  edges: [VehiclePeopleEdge]\n  totalCount: Int\n  people: [Person]\n}\ntype VehicleFilmsConnection {\n  pageInfo: PageInfo!\n  edges: [VehicleFilmsEdge]\n  totalCount: Int\n  films: [Film]\n}\ntype SpeciesPeopleConnection {\n  pageInfo: PageInfo!\n  edges: [SpeciesPeopleEdge]\n  totalCount: Int\n  people: [Person]\n}\ntype SpeciesFilmsConnection {\n  pageInfo: PageInfo!\n  edges: [SpeciesFilmsEdge]\n  totalCount: Int\n  films: [Film]\n}\ntype PersonFilmsConnection {\n  pageInfo: PageInfo!\n  edges: [PersonFilmsEdge]\n  totalCount: Int\n  films: [Film]\n}\ntype PersonStarshipsConnection {\n  pageInfo: PageInfo!\n  edges: [PersonStarshipsEdge]\n  totalCount: Int\n  starships: [Starship]\n}\ntype PersonVehiclesConnection {\n  pageInfo: PageInfo!\n  edges: [PersonVehiclesEdge]\n  totalCount: Int\n  vehicles: [Vehicle]\n}\ntype FilmsConnection {\n  pageInfo: PageInfo!\n  edges: [FilmsEdge]\n  totalCount: Int\n  films: [Film]\n}\ntype PlanetsConnection {\n  pageInfo: PageInfo!\n  edges: [PlanetsEdge]\n  totalCount: Int\n  planets: [Planet]\n}\ntype StarshipsConnection {\n  pageInfo: PageInfo!\n  edges: [StarshipsEdge]\n  totalCount: Int\n  starships: [Starship]\n}\ntype VehiclesConnection {\n  pageInfo: PageInfo!\n  edges: [VehiclesEdge]\n  totalCount: Int\n  vehicles: [Vehicle]\n}\ntype SpeciesConnection {\n  pageInfo: PageInfo!\n  edges: [SpeciesEdge]\n  totalCount: Int\n  species: [Species]\n}\ntype PeopleConnection {\n  pageInfo: PageInfo!\n  edges: [PeopleEdge]\n  totalCount: Int\n  people: [Person]\n}\n"
+      },
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/Schema"
+      }
+    },
+    "SWAPIDefaultApiKey0AC28745": {
+      "Type": "AWS::AppSync::ApiKey",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        }
+      },
+      "DependsOn": [
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DefaultApiKey"
+      }
+    },
+    "SWAPIDummyDSFF598EC1": {
+      "Type": "AWS::AppSync::DataSource",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "Name": "DummyDS",
+        "Type": "NONE"
+      },
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/Resource"
+      }
+    },
+    "SWAPIDummyDSFilmspeciesConnectionResolver1F3ED6DB": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "speciesConnection",
+        "TypeName": "Film",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/FilmspeciesConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSFilmstarshipConnectionResolverEDC08317": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "starshipConnection",
+        "TypeName": "Film",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/FilmstarshipConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSFilmvehicleConnectionResolver92091EF9": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "vehicleConnection",
+        "TypeName": "Film",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/FilmvehicleConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSFilmpersonConnectionResolverB34DC801": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "personConnection",
+        "TypeName": "Film",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/FilmpersonConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSFilmplanetConnectionResolverA468D210": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "planetConnection",
+        "TypeName": "Film",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/FilmplanetConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSPlanetpersonConnectionResolverA320D03C": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "personConnection",
+        "TypeName": "Planet",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/PlanetpersonConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSPlanetfilmConnectionResolver454F9A94": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "filmConnection",
+        "TypeName": "Planet",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/PlanetfilmConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSStarshippersonConnectionResolverE921B75B": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "personConnection",
+        "TypeName": "Starship",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/StarshippersonConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSStarshipfilmConnectionResolver76EAE7B8": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "filmConnection",
+        "TypeName": "Starship",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/StarshipfilmConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSVehiclepersonConnectionResolverD5E5E95E": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "personConnection",
+        "TypeName": "Vehicle",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/VehiclepersonConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSVehiclefilmConnectionResolver6E577EEE": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "filmConnection",
+        "TypeName": "Vehicle",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/VehiclefilmConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSSpeciespersonConnectionResolverDBC83236": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "personConnection",
+        "TypeName": "Species",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/SpeciespersonConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSSpeciesfilmConnectionResolverD5EC79C1": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "filmConnection",
+        "TypeName": "Species",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/SpeciesfilmConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSPersonfilmConnectionResolver4E096848": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "filmConnection",
+        "TypeName": "Person",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/PersonfilmConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSPersonstarshipConnectionResolver8DDA62A6": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "starshipConnection",
+        "TypeName": "Person",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/PersonstarshipConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSPersonvehicleConnectionResolver179B434C": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "vehicleConnection",
+        "TypeName": "Person",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/PersonvehicleConnectionResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootnodeResolver8AF51F52": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "node",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootnodeResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootallFilmsResolver6D707309": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "allFilms",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootallFilmsResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootfilmResolver6B70C14D": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "film",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootfilmResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootallPlanetsResolver6CB16241": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "allPlanets",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootallPlanetsResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootplanetResolverF5C3DBDC": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "planet",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootplanetResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootallStarshipsResolver1A6D8861": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "allStarships",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootallStarshipsResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootstarshipResolver1C62C899": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "starship",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootstarshipResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootallVehiclesResolver0AD1B46D": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "allVehicles",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootallVehiclesResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootvehicleResolver489E2688": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "vehicle",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootvehicleResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootallSpeciesResolver6C72746E": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "allSpecies",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootallSpeciesResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootspeciesResolver537B919B": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "species",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootspeciesResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootallPeopleResolver25B3C268": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "allPeople",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootallPeopleResolver/Resource"
+      }
+    },
+    "SWAPIDummyDSRootpersonResolver2927CB36": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": [
+            "SWAPIF75D9180",
+            "ApiId"
+          ]
+        },
+        "FieldName": "person",
+        "TypeName": "Root",
+        "DataSourceName": "DummyDS",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.arguments)\n}",
+        "ResponseMappingTemplate": "{\n    \"version\": \"2017-02-28\",\n    \"payload\": $utils.toJson($context.result)\n}"
+      },
+      "DependsOn": [
+        "SWAPIDummyDSFF598EC1",
+        "SWAPISchema10C907DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "StarwarsDynamicStack/SWAPI/DummyDS/RootpersonResolver/Resource"
+      }
+    }
+  }
+}

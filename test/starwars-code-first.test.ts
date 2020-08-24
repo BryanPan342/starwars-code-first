@@ -1,13 +1,17 @@
-import { expect as expectCDK, matchTemplate, MatchStyle } from '@aws-cdk/assert';
+import '@aws-cdk/assert/jest';
+import * as path from 'path';
 import * as cdk from '@aws-cdk/core';
 import * as StarwarsCodeFirst from '../lib/starwars-dynamic-stack';
+import { readFileSync } from 'fs';
 
-test('Empty Stack', () => {
+test('Check Definition', () => {
     const app = new cdk.App();
     // WHEN
     const stack = new StarwarsCodeFirst.StarwarsCodeFirstDynamicStack(app, 'MyTestStack');
     // THEN
-    expectCDK(stack).to(matchTemplate({
-      "Resources": {}
-    }, MatchStyle.EXACT))
+    const filePath = path.join(__dirname, 'definition');
+    const def = readFileSync(filePath).toString();
+    expect(stack).toHaveResourceLike("AWS::AppSync::GraphQLSchema", {
+      Definition: def,
+    });
 });
