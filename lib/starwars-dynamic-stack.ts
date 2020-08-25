@@ -45,7 +45,6 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
 
     this.api = new appsync.GraphQLApi(this, 'SWAPI', {
       name: "SWAPI",
-      schema: appsync.Schema.fromCode(),
     });
 
     /**
@@ -108,7 +107,7 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
       this.generateTargets(connection.base, dummy, connection.targets);
     });
     // Creating the Root Object Type (our query)
-    this.api.appendToSchema('schema {\n  query: Root\n}');
+    this.api.addToSchema('schema {\n  query: Root\n}');
     this.root = this.api.addObjectType('Root', {
       definition: {
         node: new appsync.ResolvableField({
