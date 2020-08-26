@@ -106,8 +106,8 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
     objectTargets.map((connection) => {
       this.generateTargets(connection.base, dummy, connection.targets);
     });
+
     // Creating the Root Object Type (our query)
-    this.api.addToSchema('schema {\n  query: Root\n}');
     this.root = this.api.addObjectType('Root', {
       definition: {
         node: new appsync.ResolvableField({
@@ -119,6 +119,8 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
         })
       },
     });
+
+    this.api.bindQueryType(this.root);
 
     // Generate the fields for Root
     Object.keys(this.objectTypes).forEach((type) => {
