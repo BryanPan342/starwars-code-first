@@ -38,12 +38,12 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
   /**
    * the GraphQL Api for this 
    */
-  protected api: appsync.GraphQLApi;
+  protected api: appsync.GraphqlApi;
 
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    this.api = new appsync.GraphQLApi(this, 'SWAPI', {
+    this.api = new appsync.GraphqlApi(this, 'SWAPI', {
       name: "SWAPI",
     });
 
@@ -107,8 +107,11 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
       this.generateTargets(connection.base, dummy, connection.targets);
     });
 
+    // 
+    this.api.addToSchema('schema {\n  query: Root\n}');
+
     // Creating the Root Object Type (our query)
-    this.root = this.api.addObjectType('Root', {
+    this.root = new appsync.ObjectType('Root', {
       definition: {
         node: new appsync.ResolvableField({
           returnType: this.globals.Node.attribute(),
@@ -120,7 +123,7 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
       },
     });
 
-    this.api.bindQueryType(this.root);
+    this.api.addType(this.root);
 
     // Generate the fields for Root
     Object.keys(this.objectTypes).forEach((type) => {
@@ -148,7 +151,7 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
 
       // Generate single type queries: type(id: ID, typeID: ID): Type
       // i.e. film(id: ID, filmID: ID): Film
-      this.root.addField(fieldName, field);
+      this.root.addField({ fieldName, field });
     });
 
     this.appendAllToSchema();
@@ -195,7 +198,7 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
     });
 
     // Create Resolver and add field to base Object Type
-    base.addField(fieldName, field);
+    base.addField({ fieldName, field });
   
     // Push Edges and Connections to class member variable
     this.edges.push(link.edge);
