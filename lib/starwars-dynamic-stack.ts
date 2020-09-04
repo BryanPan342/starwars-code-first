@@ -38,7 +38,7 @@ export class StarwarsCodeFirstDynamicStack extends cdk.Stack {
   /**
    * the GraphQL Api for this 
    */
-  protected api: appsync.GraphqlApi;
+  public api: appsync.GraphqlApi;
 
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
