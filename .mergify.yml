@@ -1,0 +1,59 @@
+# Mergify Rules
+# 1. Automatic merge + squash
+# 2. Remove stale reviews
+# 3. Dependabot
+
+pull_request_rules:
+
+  # 1. Automatically merge master into branch, build, and squash
+  - name: automatic merge and squash
+    actions:
+      comment:
+        message: Thanks for contributing! Your pull request will be updated from master and then merged automatically (do not update manually, and be sure to [allow changes to be pushed to your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)).
+      merge:
+        strict: smart
+        method: squash
+        strict_method: merge
+        commit_message: title+body
+      delete_head_branch: {}
+    conditions:
+      - -title~=(WIP|wip)
+      - -merged
+      - -closed
+      - author!=dependabot[bot]
+      - author!=dependabot-preview[bot]
+      - "#approved-reviews-by>=1"
+      - -approved-reviews-by~=author
+      - "#changes-requested-reviews-by=0"
+  
+  # 2. Dismiss reviews that are stale/merged
+  - name: remove stale reviews
+    actions:
+      dismiss_reviews:
+        approved: true
+        changes_requested: true
+    conditions:
+      - author!=dependabot[bot]
+      - author!=dependabot-preview[bot]
+      - base=master
+      - -merged
+      - -closed
+  
+  # 3. Automatically merge dependabot's blessed PRs
+  - name: automatically merge Dependabot PRs
+    actions:
+      comment:
+        message: Thanks Dependabot 🙏!
+      merge:
+        # 'strict: false' disables Mergify keeping the branch up-to-date from master.
+        # It's not necessary: Dependabot will do that itself.
+        # It's not dangerous: GitHub branch protection settings prevent merging stale branches.
+        strict: false
+        method: squash
+      delete_head_branch: {}
+    conditions:
+      - -merged
+      - -closed
+      - author~=dependabot
+      - "#approved-reviews-by>=1"
+      - "#changes-requested-reviews-by=0"
